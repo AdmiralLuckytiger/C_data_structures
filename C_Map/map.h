@@ -25,7 +25,7 @@
 		/*
 			Indicate the max number of keys in present in the map.
 		*/
-		#define MAX_SIZE_MAP 100
+		#define MAX_SIZE_MAP 4294967296 // (2^(4*8) posibles values)
 		
 	/// DATA STRUCTUTES 
 		
@@ -33,33 +33,37 @@
 			Structure that stores the data and connects it in the dictionary  
 		*/
 		typedef struct map_node_struct {
-			void* key; 			// Unique Key
-			void* data; 		// 
-			map_node* next;		// Pointer to the next element
+			void* key; 							// Unique Key (Only support 32 bit types)
+			void* data; 						// Pointer to the data to be store
+			struct map_node_struct* next;		// Pointer to the next element
 		} map_node_type;
 		
 		/* 
-			Strcuture that reprsent the whole map
+			Structure that reprsent the whole map
 		*/
 		typedef struct map_struct {
-			map_node* next; // Pointer to head of the linked list
+			int len; 			 // Stores the total amount of entries stored.
+			map_node_type* next; // Pointer to head of the linked list.
 		} map_type;
 		
 	/// FUNCTION PROTOTIPES
 	
 		// Removes all the elements from the map
-		int clear(map* map);
+		int clear(map_type* map);
 		
 		// Erase an entry of the map
-		int delate(map* map, void* key);
+		int delate(map_type* map, void* key);
 		
 		// Insert or update an entry of the map
-		int insert(map* map, void* key, void* data);
+		int insert(map_type* map, void* key, void* data);
 		
 		// Get data from the map given a key 
-		int get(map* map, void* key);
+		void* get(map_type* map, void* key);
 		
+		// Check is a key exist
+		int isKey(map_type* map, void* key);
+
 		// Instantiate an empty map
 		map_type new_map();
 		
-#endif /* __MAP_H */
+#endif /*__MAP_H*/
